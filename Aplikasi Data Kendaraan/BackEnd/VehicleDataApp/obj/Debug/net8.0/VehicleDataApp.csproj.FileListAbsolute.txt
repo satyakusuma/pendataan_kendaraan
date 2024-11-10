@@ -141,3 +141,4 @@ D:\i2s Test\Aplikasi Data Kendaraan\BackEnd\VehicleDataApp\obj\Debug\net8.0\refi
 D:\i2s Test\Aplikasi Data Kendaraan\BackEnd\VehicleDataApp\obj\Debug\net8.0\VehicleDataApp.pdb
 D:\i2s Test\Aplikasi Data Kendaraan\BackEnd\VehicleDataApp\obj\Debug\net8.0\VehicleDataApp.genruntimeconfig.cache
 D:\i2s Test\Aplikasi Data Kendaraan\BackEnd\VehicleDataApp\obj\Debug\net8.0\ref\VehicleDataApp.dll
+D:\i2s Test\Aplikasi Data Kendaraan\BackEnd\VehicleDataApp\obj\Debug\net8.0\VehicleDataApp.sourcelink.json

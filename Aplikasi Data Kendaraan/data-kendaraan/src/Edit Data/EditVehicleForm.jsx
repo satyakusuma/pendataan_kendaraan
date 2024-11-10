@@ -1,66 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Row, Col, Button } from 'react-bootstrap';
 import vehicleService from '../Service/vehicleService';
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useLocation } from 'react-router-dom'
 
 
 
-const AddVehicleForm = () => {
-  const [formData, setFormData] = useState({
-    regNumber: '',
-    ownerName: '',
-    address: '',
-    brand: '',
-    year: '',
-    cylinderCapacity: '',
-    color: '',
-    fuel: 'Merah'
-  });
-
-  const [vehicleData, setVehicleData] = useState([]);
-  const navigate = useNavigate();
-
-  useEffect(() => {
-    fetchVehicleData();
-  }, []);
-
-  const fetchVehicleData = async () => {
-    try {
-      const response = await vehicleService.getVehicles();
-      setVehicleData(response.data);
-    } catch (error) {
-      console.error('Error fetching vehicle data:', error);
-    }
-  };
-
-  const handleChange = (e) => {
-    const { id, value } = e.target;
-    setFormData({
-      ...formData,
-      [id]: value
-    });
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    
-    const newVehicle = {
-      regNumber: formData.regNumber,
-      ownerName: formData.ownerName,
-      address: formData.address,
-      brand: formData.brand,
-      year: parseInt(formData.year, 10),
-      cylinderCapacity: parseInt(formData.cylinderCapacity, 10),
-      color: formData.color,
-      fuel: formData.fuel
-    };
-
-    console.log('Submitting vehicle data:', JSON.stringify(newVehicle, null, 2));
-    
-    try {
-      await vehicleService.createVehicle(newVehicle);
-      setVehicleData([...vehicleData, newVehicle]); // Update state directly
-      setFormData({
+const EditVehicleForm = () => {
+    const [formData, setFormData] = useState({
         regNumber: '',
         ownerName: '',
         address: '',
@@ -68,19 +14,76 @@ const AddVehicleForm = () => {
         year: '',
         cylinderCapacity: '',
         color: '',
-        fuel: ''
+        fuel: 'Merah'
       });
-      navigate('/');
-    } catch (error) {
-      console.error('Error submitting vehicle data:', error);
-    }
-  };
-  const goBackVehicleDataForm = () => { 
-    navigate('/');
-  };
-  return (
-    <Container>
-      <h2 className="my-4">Tambah Data Kendaraan</h2>
+
+    const [vehicleData, setVehicleData] = useState([]);
+    const navigate = useNavigate();
+    const location = useLocation(); 
+    const { vehicle } = location.state || {};
+
+    useEffect(() => { 
+        fetchVehicleData(); 
+        if (vehicle) { 
+            setFormData(vehicle); 
+        } 
+    }, [vehicle]);
+
+    const fetchVehicleData = async () => {
+        try {
+          const response = await vehicleService.getVehicles();
+          setVehicleData(response.data);
+        } catch (error) {
+          console.error('Error fetching vehicle data:', error);
+        }
+      };
+    
+      const handleChange = (e) => {
+        const { id, value } = e.target;
+        setFormData({
+          ...formData,
+          [id]: value
+        });
+      };
+    
+      const handleSubmit = async (e) => {
+        e.preventDefault();
+        
+        const updatedVehicle = {
+          regNumber: formData.regNumber,
+          ownerName: formData.ownerName,
+          address: formData.address,
+          brand: formData.brand,
+          year: parseInt(formData.year, 10),
+          cylinderCapacity: parseInt(formData.cylinderCapacity, 10),
+          color: formData.color,
+          fuel: formData.fuel
+        };
+    
+        console.log('Submitting vehicle data:', JSON.stringify(updatedVehicle, null, 2));
+        
+        try { await vehicleService.updateVehicle(updatedVehicle.regNumber, updatedVehicle); // Update the vehicle 
+            setVehicleData([...vehicleData, updatedVehicle]); // Update state directly 
+            setFormData({ 
+                regNumber: '', 
+                ownerName: '', 
+                address: '', 
+                brand: '', 
+                year: '', 
+                cylinderCapacity: '', 
+                color: '', 
+                fuel: '' 
+            }); 
+            navigate('/'); 
+        } catch (error) { 
+            console.error('Error submitting vehicle data:', error); 
+        } };
+      const goBackVehicleDataForm = () => { 
+        navigate('/');
+      };
+    return (
+        <Container>
+      <h2 className="my-4">Edit Data Kendaraan</h2>
       <Form onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Col>
@@ -150,9 +153,8 @@ const AddVehicleForm = () => {
         <Button variant="secondary" type="submit" className="mt-3" onClick={goBackVehicleDataForm} style={{ marginLeft: '1rem' }}>Kembali</Button>
       </Form>
 
-      
     </Container>
-  );
-};
+  )
+}
 
-export default AddVehicleForm;
+export default EditVehicleForm
