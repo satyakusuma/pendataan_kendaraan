@@ -1,0 +1,11 @@
+{
+  "Version": 1,
+  "Hash": "k64LztzyHp7P3lVPIc5BSmmA1j/vIirbktWJ21rxzzQ=",
+  "Source": "VehicleDataApp",
+  "BasePath": "_content/VehicleDataApp",
+  "Mode": "Default",
+  "ManifestType": "Publish",
+  "ReferencedProjectsConfiguration": [],
+  "DiscoveryPatterns": [],
+  "Assets": []
+}

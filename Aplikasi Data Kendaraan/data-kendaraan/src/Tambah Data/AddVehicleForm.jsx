@@ -59,7 +59,7 @@ const AddVehicleForm = () => {
     
     try {
       await vehicleService.createVehicle(newVehicle);
-      setVehicleData([...vehicleData, newVehicle]); // Update state directly
+      setVehicleData([...vehicleData, newVehicle]); 
       setFormData({
         regNumber: '',
         ownerName: '',

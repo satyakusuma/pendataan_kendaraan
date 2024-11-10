@@ -1,16 +1,12 @@
 using Microsoft.EntityFrameworkCore;
-using VehicleDataApp; // Ensure this matches the namespace where VehicleContext is located
+using VehicleDataApp;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 builder.Services.AddControllers();
-
-// Add DbContext
 builder.Services.AddDbContext<VehicleContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("DefaultConnection")));
 
-// Configure CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
@@ -22,15 +18,28 @@ builder.Services.AddCors(options =>
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseDeveloperExceptionPage();
 }
+else
+{
+    app.UseExceptionHandler("/Error");
+    app.UseHsts();
+}
 
 app.UseHttpsRedirection();
+app.UseStaticFiles();
 app.UseRouting();
 app.UseCors("AllowSpecificOrigin");
 app.UseAuthorization();
 app.MapControllers();
+
+app.UseEndpoints(endpoints =>
+{
+    endpoints.MapControllers();
+    // This maps any request not matched by other routes to "index.html"
+    endpoints.MapFallbackToFile("{*path:regex(^(?!api).*$)}", "index.html");
+});
+
 app.Run();

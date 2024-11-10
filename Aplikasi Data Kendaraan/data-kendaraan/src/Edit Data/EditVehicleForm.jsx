@@ -62,8 +62,8 @@ const EditVehicleForm = () => {
     
         console.log('Submitting vehicle data:', JSON.stringify(updatedVehicle, null, 2));
         
-        try { await vehicleService.updateVehicle(updatedVehicle.regNumber, updatedVehicle); // Update the vehicle 
-            setVehicleData([...vehicleData, updatedVehicle]); // Update state directly 
+        try { await vehicleService.updateVehicle(updatedVehicle.regNumber, updatedVehicle);  
+            setVehicleData([...vehicleData, updatedVehicle]); 
             setFormData({ 
                 regNumber: '', 
                 ownerName: '', 

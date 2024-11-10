@@ -142,3 +142,4 @@ D:\i2s Test\Aplikasi Data Kendaraan\BackEnd\VehicleDataApp\obj\Debug\net8.0\Vehi
 D:\i2s Test\Aplikasi Data Kendaraan\BackEnd\VehicleDataApp\obj\Debug\net8.0\VehicleDataApp.genruntimeconfig.cache
 D:\i2s Test\Aplikasi Data Kendaraan\BackEnd\VehicleDataApp\obj\Debug\net8.0\ref\VehicleDataApp.dll
 D:\i2s Test\Aplikasi Data Kendaraan\BackEnd\VehicleDataApp\obj\Debug\net8.0\VehicleDataApp.sourcelink.json
+D:\i2s Test\Aplikasi Data Kendaraan\BackEnd\VehicleDataApp\bin\Debug\net8.0\build\asset-manifest.json
