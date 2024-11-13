@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Container, Form, Row, Col, Button } from 'react-bootstrap';
+import { Container, Form, Row, Col, Button, Alert } from 'react-bootstrap';
 import vehicleService from '../Service/vehicleService';
 import { useNavigate } from 'react-router-dom'
 
@@ -13,11 +13,13 @@ const AddVehicleForm = () => {
     brand: '',
     year: '',
     cylinderCapacity: '',
-    color: '',
-    fuel: 'Merah'
+    color: 'Merah',
+    fuel: ''
   });
 
   const [vehicleData, setVehicleData] = useState([]);
+  const [showAlert, setShowAlert] = useState(false);
+  const [yearError, setYearError] = useState('')
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -35,14 +37,28 @@ const AddVehicleForm = () => {
 
   const handleChange = (e) => {
     const { id, value } = e.target;
+    if (id === 'year') {
+      if(parseInt(value) > 2024) {
+        setYearError('Tahun tidak boleh lebih dari 2024')
+      } else {
+        setYearError('')
+      }
+    }
     setFormData({
       ...formData,
       [id]: value
     });
   };
 
+  
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+
+    if(yearError) {
+      alert(yearError)
+      return;
+    }
     
     const newVehicle = {
       regNumber: formData.regNumber,
@@ -54,6 +70,13 @@ const AddVehicleForm = () => {
       color: formData.color,
       fuel: formData.fuel
     };
+
+    const isRegNumberExists = vehicleData.some(vehicle => vehicle.regNumber === newVehicle.regNumber)
+
+    if (isRegNumberExists) {
+      setShowAlert(true);
+      return;
+    }
 
     console.log('Submitting vehicle data:', JSON.stringify(newVehicle, null, 2));
     
@@ -81,6 +104,7 @@ const AddVehicleForm = () => {
   return (
     <Container>
       <h2 className="my-4">Tambah Data Kendaraan</h2>
+      {showAlert && <Alert variant="danger">Nomor registrasi kendaraan {formData.regNumber} sudah ada</Alert>}
       <Form onSubmit={handleSubmit}>
         <Row className="mb-3">
           <Col>
@@ -92,7 +116,8 @@ const AddVehicleForm = () => {
           <Col>
             <Form.Group controlId="year">
               <Form.Label>Tahun Pembuatan</Form.Label>
-              <Form.Control type="number" value={formData.year} onChange={handleChange} maxLength={4} />
+              <Form.Control type="number" value={formData.year} onChange={handleChange} max='2024' min='1900' maxLength={4} />
+              yearError && <alert variant='danger'>{yearError}</alert>
             </Form.Group>
           </Col>
         </Row>
@@ -118,9 +143,9 @@ const AddVehicleForm = () => {
             </Form.Group>
           </Col>
           <Col>
-            <Form.Group controlId="fuel">
+            <Form.Group controlId="color">
                 <Form.Label>Warna Kendaraan</Form.Label>
-                <Form.Control as="select" value={formData.fuel} onChange={handleChange}>
+                <Form.Control as="select" value={formData.color} onChange={handleChange}>
                     <option value="Merah">Merah</option>
                     <option value="Hitam">Hitam</option>
                     <option value="Biru">Biru</option>
@@ -138,9 +163,9 @@ const AddVehicleForm = () => {
             </Form.Group>   
           </Col>
           <Col>
-            <Form.Group controlId="color">
+            <Form.Group controlId="fuel">
               <Form.Label>Bahan Bakar</Form.Label>
-              <Form.Control type="text" value={formData.color} onChange={handleChange} />
+              <Form.Control type="text" value={formData.fuel} onChange={handleChange} />
             </Form.Group>
           </Col>
           

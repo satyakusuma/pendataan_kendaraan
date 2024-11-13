@@ -1,1 +1,16 @@
-.cream-background { background-color: #f5f5dc; /* Cream color */ }
+.color-merah {
+    background-color: red !important;
+  }
+  
+  .color-biru {
+    background-color: blue !important;
+  }
+  
+  .color-hitam {
+    background-color: black !important;
+  }
+  
+  .color-abu-abu {
+    background-color: grey !important;
+  }
+  

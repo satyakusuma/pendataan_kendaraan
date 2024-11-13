@@ -14,7 +14,7 @@ const EditVehicleForm = () => {
         year: '',
         cylinderCapacity: '',
         color: '',
-        fuel: 'Merah'
+        fuel: ''
       });
 
     const [vehicleData, setVehicleData] = useState([]);
@@ -121,9 +121,9 @@ const EditVehicleForm = () => {
             </Form.Group>
           </Col>
           <Col>
-            <Form.Group controlId="fuel">
+            <Form.Group controlId="color">
                 <Form.Label>Warna Kendaraan</Form.Label>
-                <Form.Control as="select" value={formData.fuel} onChange={handleChange}>
+                <Form.Control as="select" value={formData.color} onChange={handleChange}>
                     <option value="Merah">Merah</option>
                     <option value="Hitam">Hitam</option>
                     <option value="Biru">Biru</option>
@@ -141,9 +141,9 @@ const EditVehicleForm = () => {
             </Form.Group>   
           </Col>
           <Col>
-            <Form.Group controlId="color">
+            <Form.Group controlId="fuel">
               <Form.Label>Bahan Bakar</Form.Label>
-              <Form.Control type="text" value={formData.color} onChange={handleChange} />
+              <Form.Control type="text" value={formData.fuel} onChange={handleChange} />
             </Form.Group>
           </Col>
           

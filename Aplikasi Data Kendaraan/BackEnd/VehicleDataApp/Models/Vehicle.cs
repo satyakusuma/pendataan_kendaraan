@@ -1,19 +1,21 @@
 using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace VehicleDataApp.Models
 {
     public class Vehicle
     {
         [Key]
-        public string RegNumber { get; set; } // Primary Key
-
+        [Required]
+        [DatabaseGenerated(DatabaseGeneratedOption.None)]
+        public string RegNumber { get; set; } 
         [Required]
         public string OwnerName { get; set; }
 
         public string Address { get; set; }
         public string Brand { get; set; }
 
-        [Range(1900, 2100)]
+        [Range(1900, 2024)]
         public int Year { get; set; }
 
         public int CylinderCapacity { get; set; }

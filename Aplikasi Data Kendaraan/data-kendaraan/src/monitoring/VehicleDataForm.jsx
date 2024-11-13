@@ -1,3 +1,4 @@
+import './styles.css'
 import React, { useState, useEffect } from 'react';
 import { Container, Form, Col, Button, Table, Row, Modal } from 'react-bootstrap';
 import vehicleService from '../Service/vehicleService';
@@ -12,7 +13,7 @@ const VehicleDataForm = () => {
     year: '',
     cylinderCapacity: '',
     color: '',
-    fuel: 'Merah'
+    fuel: ''
   });
 
   const [vehicleData, setVehicleData] = useState([]);
@@ -52,8 +53,9 @@ const VehicleDataForm = () => {
       brand: formData.brand,
       year: parseInt(formData.year, 10),
       cylinderCapacity: parseInt(formData.cylinderCapacity, 10),
-      color: formData.color,
-      fuel: formData.fuel
+      fuel: formData.fuel,
+      color: formData.color
+      
     };
 
     console.log('Submitting vehicle data:', JSON.stringify(newVehicle, null, 2));
@@ -69,7 +71,7 @@ const VehicleDataForm = () => {
         year: '',
         cylinderCapacity: '',
         color: '',
-        fuel: 'Merah'
+        fuel: ''
       });
     } catch (error) {
       console.error('Error submitting vehicle data:', error);
@@ -112,6 +114,24 @@ const VehicleDataForm = () => {
     navigate('/editvehicleform', { state: { vehicle } });
   };
 
+  const getColorStyle = (color) => {
+    console.log("Color received:", color);
+    switch (color.toLowerCase()) {
+      case 'merah':
+        return 'red';  
+      case 'biru':
+        return 'blue';
+      case 'abu-abu':
+        return 'grey';
+      case 'hitam':
+        return 'black';
+      default:
+        return 'white';  
+    }
+  };
+  
+  
+
   return (
     <Container>
       <h2 className="my-4">Aplikasi Data Kendaraan</h2>
@@ -139,53 +159,59 @@ const VehicleDataForm = () => {
       </Row>
       {vehicleData.length > 0 && (
         <Table striped bordered hover className="mt-4">
-          <thead>
-            <tr>
-              <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>No</th>
-              <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>Nomor Registrasi Kendaraan</th>
-              <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>Nama Pemilik</th>
-              <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>Merk Kendaraan</th>
-              <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>Tahun Pembuatan</th>
-              <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>Kapasitas Silinder</th>
-              <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>Warna Kendaraan</th>
-              <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>Bahan Bakar</th>
-              <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>Action</th>
-            </tr>
-          </thead>
-          <tbody>
-            {filteredVehicleData.map((vehicle, index) => (
-              <tr key={index}>
-                <td style={{ textAlign: 'center' }}>{index + 1}</td>
-                <td style={{textAlign: 'center'}}>{vehicle.regNumber}</td>
-                <td>{vehicle.ownerName}</td>
-                <td style={{ textAlign: 'center' }}>{vehicle.brand}</td>
-                <td>{vehicle.year}</td>
-                <td>{vehicle.cylinderCapacity}</td>
-                <td>{vehicle.color}</td>
-                <td>{vehicle.fuel}</td>
-                <td >
-                <span style={{ color: 'blue', cursor: 'pointer', marginRight: '10px' }} 
-                  onClick={() => handlegoEditVehicleForm(vehicle)} 
-                > 
-                  Detail
-                </span> 
-                 
-                <span style={{ color: 'blue', cursor: 'pointer', marginRight: '10px' }} 
-                  onClick={() => handlegoEditVehicleForm(vehicle)} 
-                > 
-                  Edit 
-                </span> 
-                 
-                <span style={{ color: 'red', cursor: 'pointer' }} 
-                onClick={() => handleDelete(vehicle)} 
-                > 
-                Delete 
-                </span>
+        <thead>
+          <tr>
+            <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>No</th>
+            <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>Nomor Registrasi Kendaraan</th>
+            <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>Nama Pemilik</th>
+            <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>Merk Kendaraan</th>
+            <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>Tahun Pembuatan</th>
+            <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>Kapasitas Silinder</th>
+            <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>Warna Kendaraan</th>
+            <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>Bahan Bakar</th>
+            <th style={{ textAlign: 'center', backgroundColor: '#add8e6' }}>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          {filteredVehicleData.map((vehicle, index) => {
+            const rowBackgroundColor = getColorStyle(vehicle.color);
+            //console.log("Row color:", rowBackgroundColor);
+            return (
+              <tr key={index} >
+                <td style={{ textAlign: 'center', backgroundColor: rowBackgroundColor }}>{index + 1}</td>
+                <td style={{ textAlign: 'center', backgroundColor: rowBackgroundColor }}>{vehicle.regNumber}</td>
+                <td style={{ backgroundColor: rowBackgroundColor}}>{vehicle.ownerName} </td>
+                <td style={{ textAlign: 'center', backgroundColor: rowBackgroundColor }}>{vehicle.brand}</td>
+                <td style={{ backgroundColor: rowBackgroundColor}} >{vehicle.year}</td>
+                <td style={{ backgroundColor: rowBackgroundColor}} >{vehicle.cylinderCapacity} cc</td>
+                <td style={{ backgroundColor: rowBackgroundColor}} >{vehicle.color}</td>
+                <td style={{ backgroundColor: rowBackgroundColor}} >{vehicle.fuel}</td>
+                <td style={{ backgroundColor: rowBackgroundColor}} >
+                  <span
+                    style={{ color: 'blue', cursor: 'pointer', marginRight: '10px' }}
+                    onClick={() => handlegoEditVehicleForm(vehicle)}
+                  >
+                    Detail
+                  </span>
+                  <span
+                    style={{ color: 'blue', cursor: 'pointer', marginRight: '10px' }}
+                    onClick={() => handlegoEditVehicleForm(vehicle)}
+                  >
+                    Edit
+                  </span>
+                  <span
+                    style={{ color: 'red', cursor: 'pointer' }}
+                    onClick={() => handleDelete(vehicle)}
+                  >
+                    Delete
+                  </span>
                 </td>
               </tr>
-            ))}
-          </tbody>
-        </Table>
+            );
+          })}
+        </tbody>
+      </Table>
+      
       )}
 
       <Modal show={showModal} onHide={() => setShowModal(false)}>
